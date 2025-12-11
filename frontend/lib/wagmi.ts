@@ -1,7 +1,6 @@
-import { createConfig, http } from 'wagmi'
-import { celo, celoAlfajores } from 'wagmi/chains'
 import { createAppKit } from '@reown/appkit/react'
 import { WagmiAdapter } from '@reown/appkit-adapter-wagmi'
+import { celo, celoAlfajores } from '@reown/appkit/networks'
 
 // Get project ID from environment
 const projectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID || ''
@@ -15,28 +14,20 @@ const metadata = {
 }
 
 // Configure networks
-const networks = [celo, celoAlfajores] as const
-
-// Create wagmi config
-export const wagmiConfig = createConfig({
-  chains: networks,
-  transports: {
-    [celo.id]: http(),
-    [celoAlfajores.id]: http(),
-  },
-})
+const networks = [celo, celoAlfajores]
 
 // Create Wagmi adapter
 const wagmiAdapter = new WagmiAdapter({
-  wagmiConfig,
+  networks,
   projectId,
-  metadata
 })
+
+// Get wagmi config from adapter
+export const wagmiConfig = wagmiAdapter.wagmiConfig
 
 // Create AppKit
 export const appKit = createAppKit({
   adapters: [wagmiAdapter],
-  networks,
   projectId,
   metadata,
   features: {
