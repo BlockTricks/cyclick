@@ -1,7 +1,11 @@
 import { CONTRACT_ADDRESSES } from './contracts'
+// @ts-ignore - JSON imports
 import CyclickTokenABI from './abis/CyclickToken.json'
+// @ts-ignore - JSON imports
 import RideVerifierABI from './abis/RideVerifier.json'
+// @ts-ignore - JSON imports
 import CarbonCreditsABI from './abis/CarbonCredits.json'
+// @ts-ignore - JSON imports
 import NFTBadgesABI from './abis/NFTBadges.json'
 
 export const contracts = {
