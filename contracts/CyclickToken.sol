@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.24;
+pragma solidity ^0.8.20;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
@@ -10,8 +10,8 @@ import "@openzeppelin/contracts/access/Ownable.sol";
  * @dev ERC-20 token for rewarding cyclists on the Cyclick platform
  */
 contract CyclickToken is ERC20, ERC20Burnable, Ownable {
-    // Maximum supply: 1 billion tokens
-    uint256 public constant MAX_SUPPLY = 1_000_000_000 * 10**18;
+    // Maximum supply of tokens
+    uint256 public constant MAX_SUPPLY = 1000000000 * 10**18; // 1 billion tokens
     
     // Address of the RideVerifier contract that can mint tokens
     address public rideVerifier;
@@ -77,7 +77,7 @@ contract CyclickToken is ERC20, ERC20Burnable, Ownable {
         require(totalSupply() + totalAmount <= MAX_SUPPLY, "Exceeds max supply");
         
         for (uint256 i = 0; i < recipients.length; i++) {
-            require(recipients[i] != address(0), "Invalid recipient");
+            require(recipients[i] != address(0), "Invalid recipient address");
             _mint(recipients[i], amounts[i]);
             emit TokensMinted(recipients[i], amounts[i], reason);
         }
