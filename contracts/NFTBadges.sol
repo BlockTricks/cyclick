@@ -4,7 +4,6 @@ pragma solidity ^0.8.20;
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts/utils/Counters.sol";
 import "./RideVerifier.sol";
 
 /**
@@ -12,13 +11,11 @@ import "./RideVerifier.sol";
  * @dev NFT contract for minting achievement badges for cyclists
  */
 contract NFTBadges is ERC721URIStorage, Ownable {
-    using Counters for Counters.Counter;
-    
     // Reference to the RideVerifier contract
     RideVerifier public rideVerifier;
     
     // Counter for token IDs
-    Counters.Counter private _tokenIdCounter;
+    uint256 private _tokenIdCounter;
     
     // Badge types
     enum BadgeType {
@@ -123,8 +120,8 @@ contract NFTBadges is ERC721URIStorage, Ownable {
      * @dev Internal function to mint a badge
      */
     function _mintBadge(address to, BadgeType badgeType) internal {
-        _tokenIdCounter.increment();
-        uint256 tokenId = _tokenIdCounter.current();
+        _tokenIdCounter++;
+        uint256 tokenId = _tokenIdCounter;
         
         _safeMint(to, tokenId);
         tokenBadgeType[tokenId] = badgeType;
@@ -185,7 +182,7 @@ contract NFTBadges is ERC721URIStorage, Ownable {
         uint256[] memory badges = new uint256[](balance);
         uint256 index = 0;
         
-        for (uint256 i = 1; i <= _tokenIdCounter.current(); i++) {
+        for (uint256 i = 1; i <= _tokenIdCounter; i++) {
             if (_ownerOf(i) == owner) {
                 badges[index] = i;
                 index++;

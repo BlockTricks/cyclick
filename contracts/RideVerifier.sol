@@ -105,10 +105,10 @@ contract RideVerifier is Ownable {
     }
     
     /**
-     * @dev Verify and reward a ride
+     * @dev Internal function to verify and reward a ride
      * @param rideId Unique identifier for the ride
      */
-    function verifyRide(bytes32 rideId) external {
+    function _verifyRide(bytes32 rideId) internal {
         Ride storage ride = rides[rideId];
         require(ride.rider != address(0), "Ride does not exist");
         require(!ride.verified, "Ride already verified");
@@ -135,12 +135,20 @@ contract RideVerifier is Ownable {
     }
     
     /**
+     * @dev Verify and reward a ride
+     * @param rideId Unique identifier for the ride
+     */
+    function verifyRide(bytes32 rideId) external {
+        _verifyRide(rideId);
+    }
+    
+    /**
      * @dev Batch verify multiple rides
      * @param rideIds Array of ride IDs to verify
      */
     function batchVerifyRides(bytes32[] memory rideIds) external {
         for (uint256 i = 0; i < rideIds.length; i++) {
-            verifyRide(rideIds[i]);
+            _verifyRide(rideIds[i]);
         }
     }
     

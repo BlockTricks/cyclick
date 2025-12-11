@@ -87,3 +87,4 @@ NFTBadges: 0x...
 
 Save these addresses for your frontend integration!
 
+
