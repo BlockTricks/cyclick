@@ -28,6 +28,7 @@ export const wagmiConfig = wagmiAdapter.wagmiConfig
 // Create AppKit
 export const appKit = createAppKit({
   adapters: [wagmiAdapter],
+  networks: networks as any, // Networks are already configured in adapter
   projectId,
   metadata,
   features: {
