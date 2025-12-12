@@ -36,7 +36,17 @@ export function ThemeProvider({
       localStorage.setItem(storageKey, 'light')
       return 'light'
     }
-    return (stored === 'light' || stored === 'dark') ? stored as Theme : defaultTheme
+    const finalTheme = (stored === 'light' || stored === 'dark') ? stored as Theme : defaultTheme
+    
+    // Apply theme immediately on mount
+    if (typeof window !== 'undefined') {
+      const root = window.document.documentElement
+      root.classList.remove('light', 'dark')
+      root.classList.add(finalTheme)
+      root.style.colorScheme = finalTheme
+    }
+    
+    return finalTheme
   })
 
   useEffect(() => {
@@ -49,11 +59,7 @@ export function ThemeProvider({
     root.classList.add(theme)
     
     // Force update to ensure theme is applied
-    if (theme === 'light') {
-      root.style.colorScheme = 'light'
-    } else {
-      root.style.colorScheme = 'dark'
-    }
+    root.style.colorScheme = theme
   }, [theme])
 
   const updateTheme = (newTheme: Theme) => {

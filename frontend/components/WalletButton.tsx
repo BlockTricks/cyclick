@@ -2,11 +2,24 @@
 
 import { useAccount, useDisconnect } from 'wagmi'
 import { useAppKit } from '@reown/appkit/react'
+import { useEffect } from 'react'
+import toast from 'react-hot-toast'
 
 export function WalletButton() {
   const { address, isConnected } = useAccount()
   const { open } = useAppKit()
   const { disconnect } = useDisconnect()
+
+  useEffect(() => {
+    if (isConnected && address) {
+      toast.success('Wallet connected!', { duration: 2000 })
+    }
+  }, [isConnected, address])
+
+  const handleDisconnect = () => {
+    disconnect()
+    toast.success('Wallet disconnected')
+  }
 
   if (isConnected && address) {
     return (
@@ -15,7 +28,7 @@ export function WalletButton() {
           {address.slice(0, 6)}...{address.slice(-4)}
         </div>
         <button
-          onClick={() => disconnect()}
+          onClick={handleDisconnect}
           className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
         >
           Disconnect
