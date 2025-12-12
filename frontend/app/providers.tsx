@@ -25,7 +25,9 @@ export function Providers({ children }: { children: React.ReactNode }) {
                 background: 'var(--background)',
                 color: 'var(--foreground)',
                 border: '1px solid rgba(0, 0, 0, 0.1)',
+                boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
               },
+              className: 'dark:border-gray-700',
               success: {
                 iconTheme: {
                   primary: '#35D07F',
