@@ -17,7 +17,7 @@ type ThemeProviderState = {
 }
 
 const initialState: ThemeProviderState = {
-  theme: 'system',
+  theme: 'light',
   setTheme: () => null,
   resolvedTheme: 'light',
 }
@@ -26,7 +26,7 @@ const ThemeProviderContext = createContext<ThemeProviderState>(initialState)
 
 export function ThemeProvider({
   children,
-  defaultTheme = 'system',
+  defaultTheme = 'light',
   storageKey = 'cyclick-theme',
   ...props
 }: ThemeProviderProps) {
@@ -49,17 +49,17 @@ export function ThemeProvider({
 
     root.classList.remove('light', 'dark')
 
+    let themeToApply: 'light' | 'dark'
     if (theme === 'system') {
-      const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches
+      themeToApply = window.matchMedia('(prefers-color-scheme: dark)').matches
         ? 'dark'
         : 'light'
-
-      root.classList.add(systemTheme)
-      setResolvedTheme(systemTheme)
     } else {
-      root.classList.add(theme)
-      setResolvedTheme(theme)
+      themeToApply = theme
     }
+
+    root.classList.add(themeToApply)
+    setResolvedTheme(themeToApply)
   }, [theme])
 
   useEffect(() => {
@@ -78,12 +78,14 @@ export function ThemeProvider({
     return () => mediaQuery.removeEventListener('change', handleChange)
   }, [theme])
 
+  const updateTheme = (newTheme: Theme) => {
+    localStorage.setItem(storageKey, newTheme)
+    setTheme(newTheme)
+  }
+
   const value = {
     theme,
-    setTheme: (theme: Theme) => {
-      localStorage.setItem(storageKey, theme)
-      setTheme(theme)
-    },
+    setTheme: updateTheme,
     resolvedTheme,
   }
 

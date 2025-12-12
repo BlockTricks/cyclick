@@ -11,7 +11,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
   const [queryClient] = useState(() => new QueryClient())
 
   return (
-    <ThemeProvider defaultTheme="system" storageKey="cyclick-theme">
+    <ThemeProvider defaultTheme="light" storageKey="cyclick-theme">
       <ThemeSync />
       <WagmiProvider config={wagmiConfig}>
         <QueryClientProvider client={queryClient}>
