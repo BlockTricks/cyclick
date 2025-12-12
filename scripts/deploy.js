@@ -85,8 +85,9 @@ async function main() {
   fs.writeFileSync(deploymentPath, JSON.stringify(deploymentInfo, null, 2));
   console.log("\nDeployment info saved to:", deploymentPath);
 
-  // Verify contracts on CeloScan
-  if (hre.network.name === "celo" || hre.network.name === "alfajores") {
+  // Verify contracts
+  const verifyNetworks = ["celo", "alfajores", "base", "baseSepolia"];
+  if (verifyNetworks.includes(hre.network.name)) {
     console.log("\n=== Verifying Contracts ===");
     
     // Wait for block confirmations before verifying
@@ -138,14 +139,26 @@ async function main() {
     }
 
     console.log("\n=== Verification Complete ===");
-    console.log("View contracts on CeloScan:");
-    const baseUrl = hre.network.name === "celo" 
-      ? "https://celoscan.io/address/" 
-      : "https://alfajores.celoscan.io/address/";
-    console.log(`CyclickToken: ${baseUrl}${tokenAddress}`);
-    console.log(`RideVerifier: ${baseUrl}${verifierAddress}`);
-    console.log(`CarbonCredits: ${baseUrl}${carbonCreditsAddress}`);
-    console.log(`NFTBadges: ${baseUrl}${nftBadgesAddress}`);
+    
+    // Get explorer URL based on network
+    let explorerUrl = "";
+    if (hre.network.name === "celo") {
+      explorerUrl = "https://celoscan.io/address/";
+    } else if (hre.network.name === "alfajores") {
+      explorerUrl = "https://alfajores.celoscan.io/address/";
+    } else if (hre.network.name === "base") {
+      explorerUrl = "https://basescan.org/address/";
+    } else if (hre.network.name === "baseSepolia") {
+      explorerUrl = "https://sepolia.basescan.org/address/";
+    }
+    
+    if (explorerUrl) {
+      console.log(`View contracts on ${hre.network.name === "base" || hre.network.name === "baseSepolia" ? "BaseScan" : "CeloScan"}:`);
+      console.log(`CyclickToken: ${explorerUrl}${tokenAddress}`);
+      console.log(`RideVerifier: ${explorerUrl}${verifierAddress}`);
+      console.log(`CarbonCredits: ${explorerUrl}${carbonCreditsAddress}`);
+      console.log(`NFTBadges: ${explorerUrl}${nftBadgesAddress}`);
+    }
   }
 }
 

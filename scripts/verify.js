@@ -69,14 +69,31 @@ async function main() {
   }
 
   console.log("=== Verification Complete ===");
-  const baseUrl = network === "celo" 
-    ? "https://celoscan.io/address/" 
-    : "https://alfajores.celoscan.io/address/";
-  console.log("\nView contracts on CeloScan:");
-  console.log(`CyclickToken: ${baseUrl}${contracts.CyclickToken}`);
-  console.log(`RideVerifier: ${baseUrl}${contracts.RideVerifier}`);
-  console.log(`CarbonCredits: ${baseUrl}${contracts.CarbonCredits}`);
-  console.log(`NFTBadges: ${baseUrl}${contracts.NFTBadges}`);
+  
+  // Get explorer URL based on network
+  let explorerUrl = "";
+  let explorerName = "";
+  if (network === "celo") {
+    explorerUrl = "https://celoscan.io/address/";
+    explorerName = "CeloScan";
+  } else if (network === "alfajores") {
+    explorerUrl = "https://alfajores.celoscan.io/address/";
+    explorerName = "CeloScan";
+  } else if (network === "base") {
+    explorerUrl = "https://basescan.org/address/";
+    explorerName = "BaseScan";
+  } else if (network === "baseSepolia") {
+    explorerUrl = "https://sepolia.basescan.org/address/";
+    explorerName = "BaseScan";
+  }
+  
+  if (explorerUrl) {
+    console.log(`\nView contracts on ${explorerName}:`);
+    console.log(`CyclickToken: ${explorerUrl}${contracts.CyclickToken}`);
+    console.log(`RideVerifier: ${explorerUrl}${contracts.RideVerifier}`);
+    console.log(`CarbonCredits: ${explorerUrl}${contracts.CarbonCredits}`);
+    console.log(`NFTBadges: ${explorerUrl}${contracts.NFTBadges}`);
+  }
 }
 
 main()
