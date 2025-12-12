@@ -67,7 +67,8 @@ export default function RidePage() {
       // Convert rideId to bytes32
       const rideIdBytes32 = `0x${rideId.replace(/[^0-9a-f]/gi, '').padStart(64, '0')}`
 
-      toast.loading('Submitting ride...', { id: 'submit-ride' })
+      setActionType('submit')
+      toast.loading('Submitting ride...', { id: 'tx-action' })
       
       writeContract({
         address: contracts.RideVerifier.address as `0x${string}`,
@@ -82,21 +83,10 @@ export default function RidePage() {
       })
     } catch (error) {
       console.error('Error submitting ride:', error)
-      toast.error('Error submitting ride. Please try again.', { id: 'submit-ride' })
+      toast.error('Error submitting ride. Please try again.', { id: 'tx-action' })
+      setActionType(null)
     }
   }
-
-  useEffect(() => {
-    if (isPending) {
-      toast.loading('Transaction pending...', { id: 'tx-pending' })
-    } else if (isConfirming) {
-      toast.loading('Confirming transaction...', { id: 'tx-confirming' })
-    } else if (isConfirmed) {
-      toast.success('Ride submitted successfully! You can now verify it.', { id: 'tx-pending' })
-      toast.success('Ride submitted successfully! You can now verify it.', { id: 'tx-confirming' })
-      toast.success('Ride submitted successfully! You can now verify it.', { id: 'submit-ride' })
-    }
-  }, [isPending, isConfirming, isConfirmed])
 
   const verifyRide = async () => {
     if (!rideId) return
@@ -104,7 +94,8 @@ export default function RidePage() {
     try {
       const rideIdBytes32 = `0x${rideId.replace(/[^0-9a-f]/gi, '').padStart(64, '0')}`
 
-      toast.loading('Verifying ride and claiming rewards...', { id: 'verify-ride' })
+      setActionType('verify')
+      toast.loading('Verifying ride and claiming rewards...', { id: 'tx-action' })
 
       writeContract({
         address: contracts.RideVerifier.address as `0x${string}`,
@@ -114,34 +105,32 @@ export default function RidePage() {
       })
     } catch (error) {
       console.error('Error verifying ride:', error)
-      toast.error('Error verifying ride. Please try again.', { id: 'verify-ride' })
+      toast.error('Error verifying ride. Please try again.', { id: 'tx-action' })
+      setActionType(null)
     }
   }
 
-  // Handle verification transaction status
-  const { 
-    data: verifyHash, 
-    isPending: isVerifyPending, 
-    isSuccess: isVerifySuccess 
-  } = useWriteContract()
-  
-  const { 
-    isLoading: isVerifyConfirming, 
-    isSuccess: isVerifyConfirmed 
-  } = useWaitForTransactionReceipt({
-    hash: verifyHash,
-  })
-
+  // Handle transaction status
   useEffect(() => {
-    if (isVerifyPending) {
-      toast.loading('Verifying ride...', { id: 'verify-tx' })
-    } else if (isVerifyConfirming) {
-      toast.loading('Confirming verification...', { id: 'verify-tx' })
-    } else if (isVerifyConfirmed) {
-      toast.success('Ride verified! Rewards have been claimed! 🎉', { id: 'verify-tx' })
-      toast.success('Ride verified! Rewards have been claimed! 🎉', { id: 'verify-ride' })
+    if (isPending && actionType) {
+      toast.loading(
+        actionType === 'submit' ? 'Transaction pending...' : 'Verifying ride...',
+        { id: 'tx-action' }
+      )
+    } else if (isConfirming && actionType) {
+      toast.loading(
+        actionType === 'submit' ? 'Confirming transaction...' : 'Confirming verification...',
+        { id: 'tx-action' }
+      )
+    } else if (isConfirmed && actionType) {
+      if (actionType === 'submit') {
+        toast.success('Ride submitted successfully! You can now verify it.', { id: 'tx-action' })
+      } else if (actionType === 'verify') {
+        toast.success('Ride verified! Rewards have been claimed! 🎉', { id: 'tx-action' })
+      }
+      setActionType(null)
     }
-  }, [isVerifyPending, isVerifyConfirming, isVerifyConfirmed])
+  }, [isPending, isConfirming, isConfirmed, actionType])
 
   if (!isConnected) {
     return (
@@ -224,20 +213,17 @@ export default function RidePage() {
                 {isConfirmed && (
                   <button
                     onClick={verifyRide}
-                    disabled={isPending || isConfirming}
+                    disabled={isPending || isConfirming || actionType === 'verify'}
                     className="w-full px-6 py-4 bg-purple-500 text-white rounded-lg font-semibold text-lg hover:bg-purple-600 transition-colors disabled:opacity-50"
                   >
-                    Verify & Claim Rewards
+                    {actionType === 'verify' && (isPending || isConfirming) 
+                      ? 'Verifying...' 
+                      : 'Verify & Claim Rewards'}
                   </button>
                 )}
               </>
             )}
 
-            {isConfirmed && (
-              <div className="p-4 bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200 rounded-lg text-center">
-                ✅ Ride submitted successfully! You can now verify it to claim rewards.
-              </div>
-            )}
           </div>
 
           {/* Demo: Simulate distance increase */}
