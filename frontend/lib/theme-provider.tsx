@@ -47,6 +47,13 @@ export function ThemeProvider({
     
     // Add the current theme class
     root.classList.add(theme)
+    
+    // Force update to ensure theme is applied
+    if (theme === 'light') {
+      root.style.colorScheme = 'light'
+    } else {
+      root.style.colorScheme = 'dark'
+    }
   }, [theme])
 
   const updateTheme = (newTheme: Theme) => {

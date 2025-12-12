@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react'
 import { useWriteContract, useWaitForTransactionReceipt } from 'wagmi'
 import { contracts } from '@/lib/contracts-config'
 import { parseEther, formatEther } from 'viem'
+import toast from 'react-hot-toast'
 
 export default function RidePage() {
   const { address, isConnected } = useAccount()
@@ -37,7 +38,7 @@ export default function RidePage() {
 
   const startRide = () => {
     if (!isConnected) {
-      alert('Please connect your wallet first')
+      toast.error('Please connect your wallet first')
       return
     }
 
@@ -47,15 +48,17 @@ export default function RidePage() {
     setDuration(0)
     // Generate a unique ride ID
     setRideId(`ride_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`)
+    toast.success('Ride started! 🚴')
   }
 
   const stopRide = () => {
     setIsTracking(false)
+    toast.success('Ride stopped! You can now submit your ride.')
   }
 
   const submitRide = async () => {
     if (!address || distance < 1000) {
-      alert('Ride must be at least 1km to submit')
+      toast.error('Ride must be at least 1km to submit')
       return
     }
 
@@ -63,6 +66,8 @@ export default function RidePage() {
       // Convert rideId to bytes32
       const rideIdBytes32 = `0x${rideId.replace(/[^0-9a-f]/gi, '').padStart(64, '0')}`
 
+      toast.loading('Submitting ride...', { id: 'submit-ride' })
+      
       writeContract({
         address: contracts.RideVerifier.address as `0x${string}`,
         abi: contracts.RideVerifier.abi,
@@ -76,9 +81,21 @@ export default function RidePage() {
       })
     } catch (error) {
       console.error('Error submitting ride:', error)
-      alert('Error submitting ride. Please try again.')
+      toast.error('Error submitting ride. Please try again.', { id: 'submit-ride' })
     }
   }
+
+  useEffect(() => {
+    if (isPending) {
+      toast.loading('Transaction pending...', { id: 'tx-pending' })
+    } else if (isConfirming) {
+      toast.loading('Confirming transaction...', { id: 'tx-confirming' })
+    } else if (isConfirmed) {
+      toast.success('Ride submitted successfully! You can now verify it.', { id: 'tx-pending' })
+      toast.success('Ride submitted successfully! You can now verify it.', { id: 'tx-confirming' })
+      toast.success('Ride submitted successfully! You can now verify it.', { id: 'submit-ride' })
+    }
+  }, [isPending, isConfirming, isConfirmed])
 
   const verifyRide = async () => {
     if (!rideId) return
