@@ -1,0 +1,11 @@
+{
+  "network": "celo",
+  "deployer": "0x3Be7fbBDbC73Fc4731D60EF09c4BA1A94DC58E41",
+  "contracts": {
+    "CyclickToken": "0xEADa32369D1342886679f04CC1dEEf390E2a43C4",
+    "RideVerifier": "0xe0eb4791ee8Fce0Bf144074Ab88A40Dab8c24191",
+    "CarbonCredits": "0x77A9bc6bE75D3Be641Ec649f5b6463D901CFB51d",
+    "NFTBadges": "0xFee1D3Ae671f77FaB5922C960B9558B29eF6EE39"
+  },
+  "timestamp": "2025-12-11T22:58:12.646Z"
+}

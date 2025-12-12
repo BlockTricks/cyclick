@@ -84,6 +84,69 @@ async function main() {
   
   fs.writeFileSync(deploymentPath, JSON.stringify(deploymentInfo, null, 2));
   console.log("\nDeployment info saved to:", deploymentPath);
+
+  // Verify contracts on CeloScan
+  if (hre.network.name === "celo" || hre.network.name === "alfajores") {
+    console.log("\n=== Verifying Contracts ===");
+    
+    // Wait for block confirmations before verifying
+    console.log("Waiting for block confirmations...");
+    await new Promise(resolve => setTimeout(resolve, 30000)); // Wait 30 seconds
+
+    try {
+      console.log("\nVerifying CyclickToken...");
+      await hre.run("verify:verify", {
+        address: tokenAddress,
+        constructorArguments: [deployer.address],
+      });
+      console.log("✓ CyclickToken verified");
+    } catch (error) {
+      console.log("⚠ CyclickToken verification failed:", error.message);
+    }
+
+    try {
+      console.log("\nVerifying RideVerifier...");
+      await hre.run("verify:verify", {
+        address: verifierAddress,
+        constructorArguments: [tokenAddress, deployer.address],
+      });
+      console.log("✓ RideVerifier verified");
+    } catch (error) {
+      console.log("⚠ RideVerifier verification failed:", error.message);
+    }
+
+    try {
+      console.log("\nVerifying CarbonCredits...");
+      await hre.run("verify:verify", {
+        address: carbonCreditsAddress,
+        constructorArguments: [tokenAddress, deployer.address],
+      });
+      console.log("✓ CarbonCredits verified");
+    } catch (error) {
+      console.log("⚠ CarbonCredits verification failed:", error.message);
+    }
+
+    try {
+      console.log("\nVerifying NFTBadges...");
+      await hre.run("verify:verify", {
+        address: nftBadgesAddress,
+        constructorArguments: [verifierAddress, deployer.address],
+      });
+      console.log("✓ NFTBadges verified");
+    } catch (error) {
+      console.log("⚠ NFTBadges verification failed:", error.message);
+    }
+
+    console.log("\n=== Verification Complete ===");
+    console.log("View contracts on CeloScan:");
+    const baseUrl = hre.network.name === "celo" 
+      ? "https://celoscan.io/address/" 
+      : "https://alfajores.celoscan.io/address/";
+    console.log(`CyclickToken: ${baseUrl}${tokenAddress}`);
+    console.log(`RideVerifier: ${baseUrl}${verifierAddress}`);
+    console.log(`CarbonCredits: ${baseUrl}${carbonCreditsAddress}`);
+    console.log(`NFTBadges: ${baseUrl}${nftBadgesAddress}`);
+  }
 }
 
 main()
