@@ -1,6 +1,6 @@
 'use client'
 
-import { Header } from '@/components/Header'
+import { Header } from '@/components/layout/Header'
 import { useAccount, useReadContract, useBalance } from 'wagmi'
 import { contracts } from '@/lib/contracts-config'
 import { formatEther } from 'viem'

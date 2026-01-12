@@ -41,12 +41,7 @@ module.exports = {
     artifacts: "./artifacts",
   },
   etherscan: {
-    apiKey: {
-      celo: process.env.CELOSCAN_API_KEY || "",
-      alfajores: process.env.CELOSCAN_API_KEY || "",
-      base: process.env.BASESCAN_API_KEY || process.env.ETHERSCAN_API_KEY || "",
-      baseSepolia: process.env.BASESCAN_API_KEY || process.env.ETHERSCAN_API_KEY || "",
-    },
+    apiKey: process.env.ETHERSCAN_API_KEY || process.env.BASESCAN_API_KEY || process.env.CELOSCAN_API_KEY || "",
     customChains: [
       {
         network: "celo",
@@ -86,6 +81,3 @@ module.exports = {
     enabled: true,
   },
 };
-
-
-

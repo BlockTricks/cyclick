@@ -2,10 +2,10 @@
   "network": "base",
   "deployer": "0x3Be7fbBDbC73Fc4731D60EF09c4BA1A94DC58E41",
   "contracts": {
-    "CyclickToken": "0xc735cF00dE720119aa1078c905AD11088abbDC09",
-    "RideVerifier": "0x60F908818315649B06B74f6D3f2B736205fF486D",
-    "CarbonCredits": "0xaE5C34C772cB8DA92D892586cdd80f15845526Df",
-    "NFTBadges": "0xA17d98FFc3949e9E0046d3C8342bB82F8B05567e"
+    "CyclickToken": "0x0c01ed47076bFB14E15d5C6e16949A9025Be2E5C",
+    "RideVerifier": "0xe17f10E2b519253d4B88F0F11caCE806e51447A7",
+    "CarbonCredits": "0x037AbCE6378eFdBB52e397d9c72375a9a191C45f",
+    "NFTBadges": "0x65ee9d3aD4e25D7963C40038bc3eaB4cf09EbD7e"
   },
-  "timestamp": "2025-12-12T00:33:57.672Z"
+  "timestamp": "2025-12-17T09:31:01.906Z"
 }

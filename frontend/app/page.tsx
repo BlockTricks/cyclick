@@ -1,6 +1,6 @@
 'use client'
 
-import { Header } from '@/components/Header'
+import { Header } from '@/components/layout/Header'
 import { useAccount } from 'wagmi'
 import Link from 'next/link'
 
@@ -29,30 +29,68 @@ export default function Home() {
         </div>
 
         {/* Features Grid */}
-        <div className="grid md:grid-cols-3 gap-8 mb-16">
-          <div className="bg-white dark:bg-gray-800 rounded-xl p-8 shadow-lg">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+          <Link href="/ride" className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow">
             <div className="text-4xl mb-4">📍</div>
-            <h3 className="text-xl font-semibold mb-3 text-gray-900 dark:text-white">Track Rides</h3>
-            <p className="text-gray-600 dark:text-gray-300">
-              Use GPS to track your cycling routes and automatically calculate distance, 
-              duration, and carbon offset.
+            <h3 className="text-xl font-semibold mb-3 text-gray-900 dark:text-white">GPS Tracking</h3>
+            <p className="text-gray-600 dark:text-gray-300 text-sm">
+              Real-time GPS tracking with interactive route maps
             </p>
-          </div>
+          </Link>
 
-          <div className="bg-white dark:bg-gray-800 rounded-xl p-8 shadow-lg">
+          <Link href="/challenges" className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow">
+            <div className="text-4xl mb-4">🎯</div>
+            <h3 className="text-xl font-semibold mb-3 text-gray-900 dark:text-white">Challenges</h3>
+            <p className="text-gray-600 dark:text-gray-300 text-sm">
+              Daily and weekly challenges with streak bonuses
+            </p>
+          </Link>
+
+          <Link href="/leaderboard" className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow">
+            <div className="text-4xl mb-4">🏆</div>
+            <h3 className="text-xl font-semibold mb-3 text-gray-900 dark:text-white">Leaderboard</h3>
+            <p className="text-gray-600 dark:text-gray-300 text-sm">
+              Compete with cyclists worldwide
+            </p>
+          </Link>
+
+          <Link href="/marketplace" className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow">
+            <div className="text-4xl mb-4">🌱</div>
+            <h3 className="text-xl font-semibold mb-3 text-gray-900 dark:text-white">Carbon Credits</h3>
+            <p className="text-gray-600 dark:text-gray-300 text-sm">
+              Trade carbon credits on the marketplace
+            </p>
+          </Link>
+
+          <Link href="/analytics" className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow">
+            <div className="text-4xl mb-4">📊</div>
+            <h3 className="text-xl font-semibold mb-3 text-gray-900 dark:text-white">Analytics</h3>
+            <p className="text-gray-600 dark:text-gray-300 text-sm">
+              Detailed stats and performance metrics
+            </p>
+          </Link>
+
+          <Link href="/rewards" className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow">
             <div className="text-4xl mb-4">💰</div>
             <h3 className="text-xl font-semibold mb-3 text-gray-900 dark:text-white">Earn Tokens</h3>
-            <p className="text-gray-600 dark:text-gray-300">
-              Get rewarded with CYC tokens for every verified ride. The longer you cycle, 
-              the more you earn!
+            <p className="text-gray-600 dark:text-gray-300 text-sm">
+              Get rewarded with CYC tokens for every ride
             </p>
-          </div>
+          </Link>
 
-          <div className="bg-white dark:bg-gray-800 rounded-xl p-8 shadow-lg">
-            <div className="text-4xl mb-4">🌱</div>
-            <h3 className="text-xl font-semibold mb-3 text-gray-900 dark:text-white">Save the Planet</h3>
-            <p className="text-gray-600 dark:text-gray-300">
-              Convert your rewards into carbon credits and contribute to a sustainable future.
+          <Link href="/badges" className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow">
+            <div className="text-4xl mb-4">🎖️</div>
+            <h3 className="text-xl font-semibold mb-3 text-gray-900 dark:text-white">NFT Badges</h3>
+            <p className="text-gray-600 dark:text-gray-300 text-sm">
+              Collect unique NFT achievement badges
+            </p>
+          </Link>
+
+          <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg">
+            <div className="text-4xl mb-4">🔗</div>
+            <h3 className="text-xl font-semibold mb-3 text-gray-900 dark:text-white">Multi-Chain</h3>
+            <p className="text-gray-600 dark:text-gray-300 text-sm">
+              Available on Celo and Base networks
             </p>
           </div>
         </div>

@@ -1,7 +1,8 @@
 'use client'
 
-import { WalletButton } from './WalletButton'
-import { ThemeToggle } from './ThemeToggle'
+import { WalletButton } from '@/components/ui/WalletButton'
+import { ThemeToggle } from '@/components/ui/ThemeToggle'
+import { ChainSelector } from '@/components/ui/ChainSelector'
 import Link from 'next/link'
 
 export function Header() {
@@ -18,6 +19,18 @@ export function Header() {
           <Link href="/ride" className="text-gray-700 dark:text-gray-300 hover:text-[#35D07F] transition-colors">
             Start Ride
           </Link>
+          <Link href="/challenges" className="text-gray-700 dark:text-gray-300 hover:text-[#35D07F] transition-colors">
+            Challenges
+          </Link>
+          <Link href="/leaderboard" className="text-gray-700 dark:text-gray-300 hover:text-[#35D07F] transition-colors">
+            Leaderboard
+          </Link>
+          <Link href="/marketplace" className="text-gray-700 dark:text-gray-300 hover:text-[#35D07F] transition-colors">
+            Marketplace
+          </Link>
+          <Link href="/analytics" className="text-gray-700 dark:text-gray-300 hover:text-[#35D07F] transition-colors">
+            Analytics
+          </Link>
           <Link href="/rewards" className="text-gray-700 dark:text-gray-300 hover:text-[#35D07F] transition-colors">
             Rewards
           </Link>
@@ -26,6 +39,7 @@ export function Header() {
           </Link>
         </nav>
         <div className="flex items-center gap-4">
+          <ChainSelector />
           <ThemeToggle />
           <WalletButton />
         </div>

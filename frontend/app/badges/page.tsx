@@ -1,6 +1,7 @@
 'use client'
 
-import { Header } from '@/components/Header'
+import { Header } from '@/components/layout/Header'
+import { SocialShare } from '@/components/features/SocialShare'
 import { useAccount, useReadContract } from 'wagmi'
 import { contracts } from '@/lib/contracts-config'
 
@@ -55,10 +56,22 @@ export default function BadgesPage() {
         <div className="max-w-4xl mx-auto">
           {/* Badge Count */}
           <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 mb-8 text-center">
-            <div className="text-5xl font-bold text-[#35D07F] mb-2">
-              {badgeCount}
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex-1"></div>
+              <div className="flex-1">
+                <div className="text-5xl font-bold text-[#35D07F] mb-2">
+                  {badgeCount}
+                </div>
+                <div className="text-gray-600 dark:text-gray-400 text-lg">Badges Earned</div>
+              </div>
+              <div className="flex-1 flex justify-end">
+                <SocialShare
+                  title="Check out my Cyclick badges!"
+                  text={`I've earned ${badgeCount} badges on Cyclick! 🚴`}
+                  achievement={`${badgeCount} badges earned`}
+                />
+              </div>
             </div>
-            <div className="text-gray-600 dark:text-gray-400 text-lg">Badges Earned</div>
           </div>
 
           {/* Badges Grid */}
